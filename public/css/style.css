@@ -1,0 +1,225 @@
+/* ==========================================================================
+   ApexStore — Swiss Brutalist Design System
+   Pure Carbon Ink & Warm Architectural Paper // Strict 0px Geometry
+   ========================================================================== */
+
+:root {
+    --canvas: #f4f3ee;
+    --surface: #ffffff;
+    --ink-black: #111111;
+    --ink-dim: #3a3a3a;
+    --ink-muted: #6e6e6e;
+    --hairline: #d8d6ce;
+    --heavy-rule: #111111;
+    --shield-red: #c92a2a;
+    --shield-green: #1b4332;
+    --font-swiss: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial", sans-serif;
+    --font-mono: "SF Mono", Monaco, "Cascadia Code", "Consolas", monospace;
+}
+
+/* Strict Zero AI Slop Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    border-radius: 0 !important; /* Strict 0px: No pill buttons, no bubble cards */
+}
+
+body {
+    background-color: var(--canvas);
+    color: var(--ink-black);
+    font-family: var(--font-swiss);
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border-top: 4px solid var(--ink-black);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Form Controls & Inputs */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+textarea,
+select {
+    background: #ffffff;
+    color: var(--ink-black);
+    border: 1px solid var(--ink-black);
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+    transition: background-color 0.1s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    background: #fffdf5;
+    outline: 2px solid var(--ink-black);
+    outline-offset: -1px;
+}
+
+/* Action Buttons */
+.btn-primary {
+    background: var(--ink-black);
+    color: #ffffff;
+    border: 2px solid var(--ink-black);
+    padding: 8px 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+}
+
+.btn-primary:hover {
+    background: #ffffff;
+    color: var(--ink-black);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--ink-black);
+    border: 2px solid var(--ink-black);
+    padding: 8px 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--ink-black);
+    color: #ffffff;
+}
+
+.btn-outline-sm {
+    background: transparent;
+    color: var(--ink-black);
+    border: 1px solid var(--ink-black);
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.1s ease;
+}
+
+.btn-outline-sm:hover {
+    background: var(--ink-black);
+    color: #ffffff;
+}
+
+/* Posture Badges & Banners */
+.shield-badge-vuln {
+    border: 1px solid var(--shield-red);
+    color: var(--shield-red);
+    background: rgba(201, 42, 42, 0.06);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+}
+
+.shield-badge-safe {
+    border: 1px solid var(--shield-green);
+    color: var(--shield-green);
+    background: rgba(27, 67, 50, 0.06);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Alerts and Notices */
+.alert-error {
+    background: #fff5f5;
+    border: 1px solid var(--shield-red);
+    color: var(--shield-red);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-bottom: 16px;
+}
+
+.alert-success {
+    background: #f4fbf7;
+    border: 1px solid var(--shield-green);
+    color: var(--shield-green);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-bottom: 16px;
+}
+
+/* Ruled Commercial Tables */
+.store-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--heavy-rule);
+}
+
+.store-table th {
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 2px solid var(--heavy-rule);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    background: #faf9f5;
+}
+
+.store-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: middle;
+}
+
+.store-table tr:hover td {
+    background: #faf8f2;
+}
+
+/* Code Snippet Box */
+.code-box {
+    background: #ffffff;
+    border: 1px solid var(--heavy-rule);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    word-break: break-all;
+}

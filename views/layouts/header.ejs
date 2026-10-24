@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title + ' — ' : '' %>ApexStore // Precision Developer Hardware & Asset Vault</title>
+    <!-- Tailwind CSS CDN for grid utilities -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#f4f3ee] text-[#111111] min-h-screen flex flex-col font-sans">
+
+    <!-- Top Commercial Utility Strip -->
+    <header class="border-b border-[#d8d6ce] bg-white sticky top-0 z-50">
+        <div class="px-4 sm:px-8 py-2 border-b border-[#d8d6ce] flex flex-wrap items-center justify-between text-xs font-mono text-[#6e6e6e]">
+            <div class="flex items-center space-x-3">
+                <span class="font-bold text-[#111111]">ZURICH ATELIER // WORLDWIDE DISPATCH</span>
+                <span class="hidden sm:inline text-[#d8d6ce]">|</span>
+                <span class="hidden sm:inline">COMPLIMENTARY DHL EXPRESS OVER $300</span>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- System Security Posture Controller -->
+                <div class="flex items-center space-x-2">
+                    <span class="hidden md:inline text-[11px] text-[#888888]">SYSTEM POSTURE:</span>
+                    <% if (isSafeMode) { %>
+                        <span class="shield-badge-safe">SHIELD: ACTIVE (SAFE MODE)</span>
+                        <form action="/toggle-mode" method="POST" class="inline">
+                            <button type="submit" class="border border-[#111111] bg-transparent hover:bg-[#111111] hover:text-white px-2 py-0.5 text-[10px] font-mono uppercase transition">
+                                Disarm Shield
+                            </button>
+                        </form>
+                    <% } else { %>
+                        <span class="shield-badge-vuln">SHIELD: UNFORTIFIED</span>
+                        <form action="/toggle-mode" method="POST" class="inline">
+                            <button type="submit" class="border border-[#111111] bg-transparent hover:bg-[#111111] hover:text-white px-2 py-0.5 text-[10px] font-mono uppercase transition">
+                                Enforce Safe Mode
+                            </button>
+                        </form>
+                    <% } %>
+                </div>
+
+                <!-- User Session / Wallet -->
+                <div class="flex items-center space-x-3 border-l border-[#d8d6ce] pl-3">
+                    <% if (currentUser) { %>
+                        <span class="text-[#111111] font-bold"><%= currentUser.username %></span>
+                        <a href="/wallet" class="font-mono text-[#111111] font-bold hover:underline">
+                            $<%= Number(currentUser.wallet_balance || 0).toFixed(2) %>
+                        </a>
+                        <a href="/logout" class="text-[11px] text-[#c92a2a] hover:underline">Logout</a>
+                    <% } else { %>
+                        <a href="/login" class="text-[#111111] font-bold hover:underline">Sign In →</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Store Masthead & Nav -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <a href="/" class="text-3xl sm:text-4xl font-black tracking-tighter text-[#111111] uppercase leading-none block">
+                    APEXSTORE
+                </a>
+                <div class="text-[11px] font-mono tracking-widest text-[#6e6e6e] uppercase mt-1">
+                    Hardware Instruments &amp; Digital Computing Systems
+                </div>
+            </div>
+
+            <nav class="flex flex-wrap gap-6 text-xs font-mono font-bold uppercase tracking-wider">
+                <a href="/catalog" class="text-[#111111] hover:underline py-1">Catalog</a>
+                <a href="/search" class="text-[#111111] hover:underline py-1">Search</a>
+                <a href="/coupon" class="text-[#111111] hover:underline py-1">Vouchers</a>
+                <% if (currentUser) { %>
+                    <a href="/wallet" class="text-[#111111] hover:underline py-1">Digital Wallet</a>
+                <% } %>
+            </nav>
+        </div>
+
+        <!-- Commercial Announcement Ribbon (DOM XSS Sink) -->
+        <div id="promo-banner-container" class="bg-[#111111] text-white px-4 sm:px-8 py-2 text-xs font-mono flex items-center justify-between">
+            <div>
+                <span class="text-[#facc15] font-bold mr-2">[COMMUNIQUÉ]</span>
+                <span id="promo-banner-text">Special Spring Release: Complimentary express freight on all engineering hardware with code WELCOME10.</span>
+            </div>
+            <div class="hidden sm:block text-[10px] text-[#888888]">
+                REF: ATELIER-2026
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Page Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-8 py-8">
