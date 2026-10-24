@@ -1,0 +1,21 @@
+{
+  "name": "apexstore-web-security",
+  "version": "1.0.0",
+  "description": "Information Security Assignment 2 - Part 2: Web Security Project (Vulnerable & Safe Versions)",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node src/app.js",
+    "seed": "node database/seed.js",
+    "attacker": "node attacker/attackerServer.js",
+    "test": "node tests/exploits.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "docx": "^9.15.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1"
+  }
+}
