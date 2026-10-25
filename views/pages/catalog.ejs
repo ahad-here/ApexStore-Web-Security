@@ -1,0 +1,112 @@
+<%- include('../layouts/header') %>
+
+<div class="space-y-8">
+    <!-- Header & Category Filter Strip -->
+    <div class="border-b-2 border-[#111111] pb-4">
+        <div class="font-mono text-xs font-bold uppercase tracking-widest text-[#6e6e6e]">
+            SYSTEM MANIFEST // INVENTORY REGISTRY
+        </div>
+        <h1 class="text-3xl font-black uppercase tracking-tight text-[#111111] mt-1">
+            Hardware Catalog &amp; Category Index
+        </h1>
+        <p class="text-xs text-[#555555] mt-1">
+            Complete inventory specifications queryable by hardware category classification.
+        </p>
+    </div>
+
+    <!-- Category Filter Bar & Parameter Query Box -->
+    <div class="bg-white border border-[#111111] p-6 space-y-4">
+        <form action="/catalog" method="GET" class="flex flex-col sm:flex-row items-center gap-3">
+            <label for="category" class="font-mono text-xs font-bold uppercase tracking-wider text-[#111111] whitespace-nowrap">
+                Query Parameter:
+            </label>
+            <input type="text" id="category" name="category" value="<%= selectedCategory || '' %>"
+                   placeholder="e.g. Electronics, Audio, Accessories..."
+                   class="flex-grow">
+            <button type="submit" class="btn-primary whitespace-nowrap">
+                Execute Query
+            </button>
+            <a href="/catalog" class="btn-secondary whitespace-nowrap">
+                Reset
+            </a>
+        </form>
+
+        <div class="flex flex-wrap items-center gap-2 pt-3 border-t border-[#d8d6ce] font-mono text-xs">
+            <span class="text-[#6e6e6e] uppercase">Quick Filters:</span>
+            <a href="/catalog" class="px-2 py-0.5 border border-[#111111] <%= !selectedCategory ? 'bg-[#111111] text-white' : 'hover:bg-[#111111] hover:text-white' %>">All</a>
+            <a href="/catalog?category=Electronics" class="px-2 py-0.5 border border-[#111111] <%= selectedCategory === 'Electronics' ? 'bg-[#111111] text-white' : 'hover:bg-[#111111] hover:text-white' %>">Electronics</a>
+            <a href="/catalog?category=Audio" class="px-2 py-0.5 border border-[#111111] <%= selectedCategory === 'Audio' ? 'bg-[#111111] text-white' : 'hover:bg-[#111111] hover:text-white' %>">Audio</a>
+            <a href="/catalog?category=Accessories" class="px-2 py-0.5 border border-[#111111] <%= selectedCategory === 'Accessories' ? 'bg-[#111111] text-white' : 'hover:bg-[#111111] hover:text-white' %>">Accessories</a>
+            <a href="/catalog?category=Furniture" class="px-2 py-0.5 border border-[#111111] <%= selectedCategory === 'Furniture' ? 'bg-[#111111] text-white' : 'hover:bg-[#111111] hover:text-white' %>">Furniture</a>
+        </div>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert-error">
+            <%= error %>
+        </div>
+    <% } %>
+
+    <!-- Executed Query Inspection Block -->
+    <% if (executedSql) { %>
+        <div class="code-box">
+            <div class="font-bold text-[#111111] uppercase text-[10px] tracking-wider mb-1">
+                EXECUTED SQL STATEMENT BUFFER:
+            </div>
+            <code><%= executedSql %></code>
+        </div>
+    <% } %>
+
+    <!-- Catalog Inventory Table -->
+    <table class="store-table">
+        <thead>
+            <tr>
+                <th class="w-24">REF ID</th>
+                <th>ITEM SPECIFICATION / PAYLOAD TITLE</th>
+                <th class="w-48">CATEGORY / DATA FIELD</th>
+                <th class="w-32 text-right">UNIT PRICE / BAL</th>
+                <th class="w-36 text-right">ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (products && products.length > 0) { %>
+                <% products.forEach(item => { %>
+                    <tr>
+                        <td class="font-mono text-xs font-bold text-[#6e6e6e]">
+                            #<%= item.id %>
+                        </td>
+                        <td>
+                            <div class="font-bold text-sm text-[#111111]"><%= item.title %></div>
+                            <div class="font-mono text-xs text-[#555555] break-all mt-1">
+                                <%= item.description %>
+                            </div>
+                        </td>
+                        <td class="font-mono text-xs text-[#111111] uppercase break-all">
+                            <%= item.category || 'N/A' %>
+                        </td>
+                        <td class="font-mono text-sm font-bold text-right text-[#111111]">
+                            $<%= typeof item.price === 'number' ? item.price.toFixed(2) : (item.price || '0.00') %>
+                        </td>
+                        <td class="text-right">
+                            <% if (item.id && !isNaN(item.id)) { %>
+                                <a href="/products/<%= item.id %>" class="btn-outline-sm">
+                                    Audit Unit →
+                                </a>
+                            <% } else { %>
+                                <span class="font-mono text-[10px] text-[#888888]">EXFILTRATED</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5" class="text-center py-8 text-[#6e6e6e] font-mono text-xs">
+                        No catalog records returned matching the specified query criteria.
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../layouts/footer') %>
