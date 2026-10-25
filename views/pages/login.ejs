@@ -1,0 +1,63 @@
+<%- include('../layouts/header') %>
+
+<div class="max-w-md mx-auto my-12 bg-white border-2 border-[#111111] p-8 shadow-sm">
+    <div class="border-b-2 border-[#111111] pb-4 mb-6">
+        <div class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#6e6e6e]">
+            SYSTEM AUTHENTICATION // PORTAL
+        </div>
+        <h1 class="text-2xl font-black uppercase tracking-tight text-[#111111] mt-1">
+            Sign In to ApexStore
+        </h1>
+        <p class="text-xs text-[#555555] mt-1">
+            Access your customer inventory, transaction receipts, and digital asset vault.
+        </p>
+    </div>
+
+    <% if (error) { %>
+        <div class="alert-error">
+            <%= error %>
+        </div>
+    <% } %>
+
+    <% if (success) { %>
+        <div class="alert-success">
+            <%= success %>
+        </div>
+    <% } %>
+
+    <form action="/login" method="POST" class="space-y-4">
+        <% if (isSafeMode && csrfToken) { %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <% } %>
+
+        <div>
+            <label for="username" class="block font-mono text-xs font-bold uppercase tracking-wider text-[#111111] mb-1">
+                Account Username
+            </label>
+            <input type="text" id="username" name="username" required
+                   placeholder="e.g. admin or alice">
+        </div>
+
+        <div>
+            <label for="password" class="block font-mono text-xs font-bold uppercase tracking-wider text-[#111111] mb-1">
+                Account Password
+            </label>
+            <input type="password" id="password" name="password" required
+                   placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn-primary w-full py-3 mt-2 text-xs">
+            Authenticate &amp; Enter Portal →
+        </button>
+    </form>
+
+    <div class="mt-8 pt-6 border-t border-[#d8d6ce] font-mono text-xs text-[#6e6e6e] space-y-2">
+        <div class="font-bold text-[#111111] uppercase text-[10px]">Authorised Test Profiles:</div>
+        <div class="bg-[#faf9f5] border border-[#d8d6ce] p-3 text-[11px] space-y-1">
+            <div><strong class="text-[#111111]">admin</strong> / <code>admin123</code> (System Administrator)</div>
+            <div><strong class="text-[#111111]">alice</strong> / <code>alice123</code> (Customer &amp; Engineering)</div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

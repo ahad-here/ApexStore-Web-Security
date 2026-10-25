@@ -1,0 +1,66 @@
+<%- include('../layouts/header') %>
+
+<div class="max-w-2xl mx-auto space-y-8">
+    <!-- Header -->
+    <div class="border-b-2 border-[#111111] pb-4">
+        <div class="font-mono text-xs font-bold uppercase tracking-widest text-[#6e6e6e]">
+            PROMOTIONAL DISCOUNTS // VOUCHER DISPATCH
+        </div>
+        <h1 class="text-3xl font-black uppercase tracking-tight text-[#111111] mt-1">
+            Promotional Voucher Verification
+        </h1>
+        <p class="text-xs text-[#555555] mt-1">
+            Verify active institutional vouchers and promotional discount percentages.
+        </p>
+    </div>
+
+    <!-- Voucher Validation Form -->
+    <div class="bg-white border-2 border-[#111111] p-6 space-y-4">
+        <form action="/coupon/validate" method="POST" class="space-y-4">
+            <% if (isSafeMode && csrfToken) { %>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <% } %>
+
+            <div>
+                <label for="code" class="block font-mono text-xs font-bold uppercase tracking-wider text-[#111111] mb-1">
+                    Promotional Voucher Code
+                </label>
+                <input type="text" id="code" name="code" value="<%= inputCode || '' %>" required
+                       placeholder="e.g. WELCOME10 or CYBER25">
+            </div>
+
+            <button type="submit" class="btn-primary w-full py-3">
+                Verify Voucher Validity →
+            </button>
+        </form>
+
+        <div class="pt-4 border-t border-[#d8d6ce] flex items-center justify-between font-mono text-xs text-[#6e6e6e]">
+            <span>Active Promotion Codes: <strong class="text-[#111111]">WELCOME10</strong>, <strong class="text-[#111111]">CYBER25</strong></span>
+            <span>Inactive: <code class="text-[#888888]">EXPIRED05</code></span>
+        </div>
+    </div>
+
+    <!-- Verification Result Block -->
+    <% if (result) { %>
+        <div class="p-6 border-2 <%= result.valid ? 'bg-[#f4fbf7] border-[#1b4332]' : 'bg-[#fff5f5] border-[#c92a2a]' %> space-y-3">
+            <div class="flex items-center space-x-2 font-mono font-bold text-xs uppercase tracking-wider">
+                <span class="<%= result.valid ? 'text-[#1b4332]' : 'text-[#c92a2a]' %>">
+                    <%= result.valid ? '● STATUS: VALIDATED (TRUE)' : '✕ STATUS: REJECTED (FALSE)' %>
+                </span>
+            </div>
+
+            <p class="font-sans text-xs text-[#111111] font-medium leading-relaxed">
+                <%= result.message %>
+            </p>
+
+            <% if (result.executedSql) { %>
+                <div class="pt-3 border-t border-[#d8d6ce] font-mono text-xs text-[#6e6e6e]">
+                    <div class="font-bold text-[#111111] uppercase text-[10px] mb-1">Database Statement Executed:</div>
+                    <code class="text-[#111111] break-all"><%= result.executedSql %></code>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../layouts/footer') %>
