@@ -1,0 +1,96 @@
+<%- include('../layouts/header') %>
+
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Header -->
+    <div class="border-b-2 border-[#111111] pb-4">
+        <div class="font-mono text-xs font-bold uppercase tracking-widest text-[#6e6e6e]">
+            STUDIO LOOKUP // INVENTORY QUERY
+        </div>
+        <h1 class="text-3xl font-black uppercase tracking-tight text-[#111111] mt-1">
+            Product Search &amp; Keyword Query
+        </h1>
+        <p class="text-xs text-[#555555] mt-1">
+            Search full-text hardware titles, technical specifications, and category descriptors.
+        </p>
+    </div>
+
+    <!-- Search Form -->
+    <div class="bg-white border border-[#111111] p-6">
+        <form action="/search" method="GET" class="flex flex-col sm:flex-row gap-3">
+            <input type="text" name="q" value="<%= query || '' %>"
+                   placeholder="Enter keyword: e.g. Laptop, Keyboard, Monitor..."
+                   class="flex-grow">
+            <button type="submit" class="btn-primary whitespace-nowrap">
+                Search Catalog
+            </button>
+        </form>
+    </div>
+
+    <!-- Reflection Output Box -->
+    <% if (query) { %>
+        <div class="p-4 bg-white border border-[#111111] font-mono text-xs">
+            <span class="text-[#6e6e6e] uppercase">Search Query Term: </span>
+
+            <% if (!isSafeMode) { %>
+                <!-- ========================================================
+                     VULNERABLE REFLECTION:
+                     <%- query %> renders raw unescaped input into HTML.
+                     ======================================================== -->
+                <span id="reflected-output" class="font-bold text-[#111111]"><%- query %></span>
+            <% } else { %>
+                <!-- ========================================================
+                     SAFE DEFENSE:
+                     <%= query %> automatically encodes HTML entities.
+                     ======================================================== -->
+                <span id="reflected-output" class="font-bold text-[#111111]"><%= query %></span>
+            <% } %>
+        </div>
+    <% } %>
+
+    <!-- Search Results Display -->
+    <div class="space-y-4">
+        <% if (results && results.length > 0) { %>
+            <table class="store-table">
+                <thead>
+                    <tr>
+                        <th class="w-24">REF</th>
+                        <th>MATCHED SPECIFICATION</th>
+                        <th class="w-32">CATEGORY</th>
+                        <th class="w-32 text-right">UNIT PRICE</th>
+                        <th class="w-32 text-right">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% results.forEach(prod => { %>
+                        <tr>
+                            <td class="font-mono text-xs text-[#6e6e6e] font-bold">
+                                #DEV-00<%= prod.id %>
+                            </td>
+                            <td>
+                                <div class="font-bold text-sm text-[#111111]"><%= prod.title %></div>
+                                <div class="text-xs text-[#555555] mt-1"><%= prod.description %></div>
+                            </td>
+                            <td class="font-mono text-xs text-[#555555] uppercase">
+                                <%= prod.category %>
+                            </td>
+                            <td class="font-mono text-sm font-bold text-right text-[#111111]">
+                                $<%= Number(prod.price).toFixed(2) %>
+                            </td>
+                            <td class="text-right">
+                                <a href="/products/<%= prod.id %>" class="btn-outline-sm">
+                                    Details →
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else if (query) { %>
+            <div class="bg-white border border-[#d8d6ce] p-8 text-center text-xs font-mono text-[#6e6e6e]">
+                No hardware catalog items matched the query string '<%= query %>'.
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

@@ -1,0 +1,117 @@
+<%- include('../layouts/header') %>
+
+<div class="max-w-4xl mx-auto space-y-10">
+    <!-- Breadcrumb -->
+    <div class="flex items-center justify-between text-xs font-mono border-b border-[#d8d6ce] pb-3 text-[#6e6e6e]">
+        <a href="/catalog" class="hover:underline text-[#111111] font-bold">← Return to Full Catalog</a>
+        <span>SPECIFICATION REGISTER // ID: #DEV-00<%= product.id %></span>
+    </div>
+
+    <!-- Product Specifications Dossier -->
+    <div class="bg-white border-2 border-[#111111] p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b-2 border-[#111111] pb-6">
+            <div>
+                <span class="font-mono text-xs font-bold uppercase text-[#6e6e6e] tracking-widest">
+                    <%= product.category %> // HARDWARE ATELIER
+                </span>
+                <h1 class="text-3xl font-black uppercase tracking-tight text-[#111111] mt-1">
+                    <%= product.title %>
+                </h1>
+            </div>
+            <div class="text-left sm:text-right font-mono">
+                <div class="text-2xl font-black text-[#111111]">$<%= Number(product.price).toFixed(2) %></div>
+                <div class="text-xs text-[#6e6e6e] mt-1">Units In Stock: <strong class="text-[#111111]"><%= product.stock %></strong></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="font-mono text-xs font-bold uppercase tracking-wider text-[#6e6e6e] mb-2">Technical Description:</div>
+            <p class="text-sm text-[#3a3a3a] leading-relaxed bg-[#faf9f5] border border-[#d8d6ce] p-4">
+                <%= product.description %>
+            </p>
+        </div>
+    </div>
+
+    <!-- Customer Reviews & Quality Feedback Feed (Stored XSS Target) -->
+    <div class="space-y-6">
+        <div class="border-b-2 border-[#111111] pb-3 flex items-baseline justify-between">
+            <h2 class="text-xl font-black uppercase tracking-tight text-[#111111]">
+                Customer Reviews &amp; Operational Reports (<%= reviews ? reviews.length : 0 %>)
+            </h2>
+            <span class="font-mono text-xs text-[#6e6e6e]">VERIFIED PURCHASES</span>
+        </div>
+
+        <!-- Add Review Form -->
+        <div class="bg-white border border-[#111111] p-6 space-y-4">
+            <div class="font-mono text-xs font-bold uppercase tracking-wider text-[#111111]">
+                Submit Operational Feedback / Review
+            </div>
+
+            <form action="/products/<%= product.id %>/review" method="POST" class="space-y-4">
+                <% if (isSafeMode && csrfToken) { %>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <% } %>
+
+                <div class="max-w-xs">
+                    <label for="username" class="block font-mono text-xs font-bold uppercase text-[#6e6e6e] mb-1">
+                        Author Name / Handle
+                    </label>
+                    <input type="text" id="username" name="username"
+                           value="<%= currentUser ? currentUser.username : '' %>"
+                           placeholder="e.g. alice or reviewer">
+                </div>
+
+                <div>
+                    <label for="comment" class="block font-mono text-xs font-bold uppercase text-[#6e6e6e] mb-1">
+                        Review Observations
+                    </label>
+                    <textarea id="comment" name="comment" rows="3" required
+                              placeholder="Detail your operational experience with this hardware..."></textarea>
+                </div>
+
+                <div class="flex items-center justify-between pt-2">
+                    <span class="font-mono text-[11px] text-[#888888]">Direct SQLite insertion sink</span>
+                    <button type="submit" class="btn-primary">
+                        Submit Review
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="space-y-3">
+            <% if (reviews && reviews.length > 0) { %>
+                <% reviews.forEach(r => { %>
+                    <div class="bg-white border border-[#d8d6ce] p-5 space-y-2">
+                        <div class="flex items-center justify-between font-mono text-xs border-b border-[#f0eee6] pb-2 text-[#6e6e6e]">
+                            <span class="font-bold text-[#111111] uppercase"><%= r.username %></span>
+                            <span class="text-[11px]"><%= r.created_at %></span>
+                        </div>
+
+                        <div class="text-xs text-[#111111] font-sans leading-relaxed pt-1">
+                            <% if (!isSafeMode) { %>
+                                <!-- ========================================================
+                                     VULNERABLE STORED XSS SINK:
+                                     <%- r.comment %> outputs raw unescaped HTML from SQLite.
+                                     ======================================================== -->
+                                <%- r.comment %>
+                            <% } else { %>
+                                <!-- ========================================================
+                                     SAFE BLUE TEAM DEFENSE:
+                                     <%= r.comment %> escapes all HTML tags into safe entities.
+                                     ======================================================== -->
+                                <%= r.comment %>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div class="bg-white border border-[#d8d6ce] p-8 text-center font-mono text-xs text-[#6e6e6e]">
+                    No customer reports recorded yet for this device.
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>
