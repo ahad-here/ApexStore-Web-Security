@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global TechRewards — Developer Grant & Incentive Portal</title>
+    <style>
+        :root {
+            --canvas: #f4f3ee;
+            --surface: #ffffff;
+            --ink-black: #111111;
+            --ink-dim: #3a3a3a;
+            --ink-muted: #6e6e6e;
+            --hairline: #d8d6ce;
+            --heavy-rule: #111111;
+            --alert-red: #c92a2a;
+            --font-swiss: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial", sans-serif;
+            --font-mono: "SF Mono", Monaco, "Cascadia Code", "Consolas", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-radius: 0 !important; /* Strict 0px: Zero AI Slop */
+        }
+
+        body {
+            background-color: var(--canvas);
+            color: var(--ink-black);
+            font-family: var(--font-swiss);
+            font-size: 13px;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-top: 4px solid var(--ink-black);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .utility-strip {
+            background: var(--surface);
+            border-bottom: 1px solid var(--hairline);
+            padding: 8px 32px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--ink-muted);
+        }
+
+        .main-container {
+            max-width: 640px;
+            width: 100%;
+            margin: 60px auto;
+            background: var(--surface);
+            border: 2px solid var(--heavy-rule);
+            padding: 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .portal-meta {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .portal-title {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .portal-lead {
+            font-size: 13px;
+            color: var(--ink-dim);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .incentive-box {
+            background: #faf9f5;
+            border: 1px solid var(--heavy-rule);
+            padding: 18px;
+            margin-bottom: 24px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        .incentive-val {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--ink-black);
+            margin: 4px 0 8px 0;
+        }
+
+        .btn-launch {
+            background: var(--ink-black);
+            color: #ffffff;
+            border: 2px solid var(--ink-black);
+            padding: 12px 24px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .btn-launch:hover {
+            background: #ffffff;
+            color: var(--ink-black);
+        }
+
+        .footer-note {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid var(--hairline);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--ink-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="utility-strip">
+        <span>PARTNER INCENTIVE NETWORK // INDEPENDENT ORIGIN (:4000)</span>
+        <span>SECURE EXCHANGE CLEARING</span>
+    </div>
+
+    <div class="main-container">
+        <div>
+            <div class="portal-meta">GLOBAL DEVELOPER REWARDS // PORTAL</div>
+            <h1 class="portal-title">Claim Your $500 Developer Grant Voucher</h1>
+            <p class="portal-lead">
+                You have been selected for an institutional developer hardware grant. Upon authorization, funds will be immediately credited directly to your connected ApexStore digital wallet.
+            </p>
+
+            <div class="incentive-box">
+                <div style="color: var(--ink-muted); font-size: 10px; text-transform: uppercase;">GRANT ALLOCATION:</div>
+                <div class="incentive-val">$500.00 USD // CREDIT VOUCHER</div>
+                <div style="color: var(--ink-dim); font-size: 11px;">
+                    Target Clearing Enclave: <code>http://localhost:3000/wallet/transfer</code>
+                </div>
+            </div>
+
+            <a href="/csrf-transfer.html" class="btn-launch">
+                Authorize &amp; Redeem Grant Voucher →
+            </a>
+        </div>
+
+        <div class="footer-note">
+            <span>ORIGIN: HTTP://LOCALHOST:4000</span>
+            <span>CROSS-ORIGIN AUTHENTICATION TARGET</span>
+        </div>
+    </div>
+
+</body>
+</html>
